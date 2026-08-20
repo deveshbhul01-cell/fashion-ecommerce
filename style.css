@@ -107,6 +107,14 @@ button:hover {
     margin-bottom: 15px;
 }
 
+/* Product image */
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 .product h3 {
     margin-bottom: 10px;
 }
