@@ -587,10 +587,6 @@ img {
     font-size: 30px;
 }
 
-.success-box p {
-    margin-bottom: 20px;
-}
-
 
 /* FOOTER */
 
@@ -653,12 +649,7 @@ footer small {
         gap: 10px;
     }
 
-    .cart-item > * {
-        justify-self: start;
-    }
-
     .category-grid button {
         width: 120px;
     }
-
 }
