@@ -34,294 +34,276 @@
 
 </header>
 
-
 <main>
 
-    <!-- HERO -->
+<section class="hero" id="home">
 
-    <section class="hero" id="home">
+    <div class="hero-content">
 
-        <div class="hero-content">
+        <p class="eyebrow">NEW COLLECTION 2026</p>
 
-            <p class="eyebrow">NEW COLLECTION 2026</p>
+        <h1>DEFINE<br>YOUR STYLE.</h1>
 
-            <h1>DEFINE<br>YOUR STYLE.</h1>
-
-            <p class="hero-text">
-                Discover modern fashion made for your everyday look.
-            </p>
-
-            <button class="primary-btn" onclick="goToShop()">
-                SHOP NOW →
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- CATEGORIES -->
-
-    <section class="categories" id="categories">
-
-        <p class="eyebrow">EXPLORE</p>
-
-        <h2>Shop By Category</h2>
-
-        <div class="category-grid">
-
-            <button onclick="filterProducts('all')">
-                <span>✨</span>
-                All
-            </button>
-
-            <button onclick="filterProducts('tshirt')">
-                <span>👕</span>
-                T-Shirts
-            </button>
-
-            <button onclick="filterProducts('jeans')">
-                <span>👖</span>
-                Jeans
-            </button>
-
-            <button onclick="filterProducts('jacket')">
-                <span>🧥</span>
-                Jackets
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- SHOP -->
-
-    <section class="shop" id="shop">
-
-        <div class="section-heading">
-
-            <div>
-                <p class="eyebrow">OUR COLLECTION</p>
-                <h2>Trending Products</h2>
-            </div>
-
-            <input
-                id="search"
-                type="search"
-                placeholder="🔎 Search products..."
-                oninput="searchProducts()"
-            >
-
-        </div>
-
-
-        <div class="product-grid" id="product-grid">
-
-
-            <!-- T-SHIRT -->
-
-            <article class="product-card" data-category="tshirt">
-
-                <div class="product-image">
-
-                    <img
-                        src="images/tshirt.jpg"
-                        alt="Oversized T-Shirt"
-                    >
-
-                    <button
-                        class="heart-btn"
-                        onclick="toggleWishlist('Oversized T-Shirt', 799)"
-                    >
-                        ♡
-                    </button>
-
-                </div>
-
-                <div class="product-info">
-
-                    <small>T-SHIRT</small>
-
-                    <h3>Oversized T-Shirt</h3>
-
-                    <div class="product-bottom">
-
-                        <strong>₹799</strong>
-
-                        <button
-                            onclick="addToCart('Oversized T-Shirt', 799)"
-                        >
-                            Add
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- JEANS -->
-
-            <article class="product-card" data-category="jeans">
-
-                <div class="product-image">
-
-                    <img
-                        src="images/jeans.jpg"
-                        alt="Baggy Jeans"
-                    >
-
-                    <button
-                        class="heart-btn"
-                        onclick="toggleWishlist('Baggy Jeans', 1499)"
-                    >
-                        ♡
-                    </button>
-
-                </div>
-
-                <div class="product-info">
-
-                    <small>JEANS</small>
-
-                    <h3>Baggy Jeans</h3>
-
-                    <div class="product-bottom">
-
-                        <strong>₹1,499</strong>
-
-                        <button
-                            onclick="addToCart('Baggy Jeans', 1499)"
-                        >
-                            Add
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- JACKET -->
-
-            <article class="product-card" data-category="jacket">
-
-                <div class="product-image">
-
-                    <img
-                        src="images/jacket.jpg"
-                        alt="Denim Jacket"
-                    >
-
-                    <button
-                        class="heart-btn"
-                        onclick="toggleWishlist('Denim Jacket', 1999)"
-                    >
-                        ♡
-                    </button>
-
-                </div>
-
-                <div class="product-info">
-
-                    <small>JACKET</small>
-
-                    <h3>Denim Jacket</h3>
-
-                    <div class="product-bottom">
-
-                        <strong>₹1,999</strong>
-
-                        <button
-                            onclick="addToCart('Denim Jacket', 1999)"
-                        >
-                            Add
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-        </div>
-
-
-        <p id="no-products" class="no-products">
-            No products found.
+        <p class="hero-text">
+            Discover modern fashion made for your everyday look.
         </p>
 
-    </section>
+        <button class="primary-btn" onclick="goToShop()">
+            SHOP NOW →
+        </button>
+
+    </div>
+
+</section>
 
 
-    <!-- CART -->
+<section class="categories" id="categories">
 
-    <section class="cart-section" id="cart">
+    <p class="eyebrow">EXPLORE</p>
 
-        <div class="cart-container">
+    <h2>Shop By Category</h2>
 
-            <p class="eyebrow">SHOPPING BAG</p>
+    <div class="category-grid">
 
-            <h2>Your Cart</h2>
+        <button onclick="filterProducts('all')">
+            <span>✨</span>
+            All
+        </button>
 
-            <div id="cart-items"></div>
+        <button onclick="filterProducts('tshirt')">
+            <span>👕</span>
+            T-Shirts
+        </button>
 
-            <div class="cart-summary">
+        <button onclick="filterProducts('jeans')">
+            <span>👖</span>
+            Jeans
+        </button>
 
-                <div>
-                    <span>Subtotal</span>
-                    <strong>₹<span id="cart-total">0</span></strong>
-                </div>
+        <button onclick="filterProducts('jacket')">
+            <span>🧥</span>
+            Jackets
+        </button>
+
+    </div>
+
+</section>
+
+
+<section class="shop" id="shop">
+
+    <div class="section-heading">
+
+        <div>
+            <p class="eyebrow">OUR COLLECTION</p>
+            <h2>Trending Products</h2>
+        </div>
+
+        <input
+            id="search"
+            type="search"
+            placeholder="🔎 Search products..."
+            oninput="searchProducts()"
+        >
+
+    </div>
+
+
+    <div class="product-grid" id="product-grid">
+
+
+        <article class="product-card" data-category="tshirt">
+
+            <div class="product-image">
+
+                <img
+                    src="images/tshirt.jpg"
+                    alt="Oversized T-Shirt"
+                >
 
                 <button
-                    class="primary-btn full-btn"
-                    onclick="checkout()"
+                    class="heart-btn"
+                    onclick="toggleWishlist('Oversized T-Shirt', 799)"
                 >
-                    PROCEED TO CHECKOUT
+                    ♡
                 </button>
 
             </div>
 
+            <div class="product-info">
+
+                <small>T-SHIRT</small>
+
+                <h3>Oversized T-Shirt</h3>
+
+                <div class="product-bottom">
+
+                    <strong>₹799</strong>
+
+                    <button
+                        onclick="addToCart('Oversized T-Shirt', 799)"
+                    >
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article class="product-card" data-category="jeans">
+
+            <div class="product-image">
+
+                <img
+                    src="images/jeans.jpg"
+                    alt="Baggy Jeans"
+                >
+
+                <button
+                    class="heart-btn"
+                    onclick="toggleWishlist('Baggy Jeans', 1499)"
+                >
+                    ♡
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <small>JEANS</small>
+
+                <h3>Baggy Jeans</h3>
+
+                <div class="product-bottom">
+
+                    <strong>₹1,499</strong>
+
+                    <button
+                        onclick="addToCart('Baggy Jeans', 1499)"
+                    >
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article class="product-card" data-category="jacket">
+
+            <div class="product-image">
+
+                <img
+                    src="images/jacket.jpg"
+                    alt="Denim Jacket"
+                >
+
+                <button
+                    class="heart-btn"
+                    onclick="toggleWishlist('Denim Jacket', 1999)"
+                >
+                    ♡
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <small>JACKET</small>
+
+                <h3>Denim Jacket</h3>
+
+                <div class="product-bottom">
+
+                    <strong>₹1,999</strong>
+
+                    <button
+                        onclick="addToCart('Denim Jacket', 1999)"
+                    >
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <p id="no-products" class="no-products">
+        No products found.
+    </p>
+
+</section>
+
+
+<section class="cart-section" id="cart">
+
+    <div class="cart-container">
+
+        <p class="eyebrow">SHOPPING BAG</p>
+
+        <h2>Your Cart</h2>
+
+        <div id="cart-items"></div>
+
+        <div class="cart-summary">
+
+            <div>
+                <span>Subtotal</span>
+
+                <strong>
+                    ₹<span id="cart-total">0</span>
+                </strong>
+            </div>
+
+            <button
+                class="primary-btn full-btn"
+                onclick="checkout()"
+            >
+                PROCEED TO CHECKOUT
+            </button>
+
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- WISHLIST -->
+<section class="wishlist-section" id="wishlist">
 
-    <section class="wishlist-section" id="wishlist">
+    <p class="eyebrow">SAVED ITEMS</p>
 
-        <p class="eyebrow">SAVED ITEMS</p>
+    <h2>Your Wishlist</h2>
 
-        <h2>Your Wishlist</h2>
+    <div id="wishlist-items"></div>
 
-        <div id="wishlist-items"></div>
-
-    </section>
+</section>
 
 
-    <!-- CONTACT -->
+<section class="contact" id="contact">
 
-    <section class="contact" id="contact">
+    <p class="eyebrow">CONTACT</p>
 
-        <p class="eyebrow">CONTACT</p>
+    <h2>Need Help?</h2>
 
-        <h2>Need Help?</h2>
+    <p>
+        Have questions about products or orders?
+        Contact StyleHub.
+    </p>
 
-        <p>
-            Have questions about products or orders?
-            Contact StyleHub.
-        </p>
-
-    </section>
+</section>
 
 </main>
 
-
-<!-- CHECKOUT MODAL -->
 
 <div class="modal" id="checkout-modal">
 
@@ -382,8 +364,6 @@
 
 </div>
 
-
-<!-- SUCCESS -->
 
 <div class="modal" id="success-modal">
 
