@@ -1,10 +1,11 @@
-let cart = JSON.parse(localStorage.getItem("stylehub-cart")) || [];
+let cart =
+    JSON.parse(localStorage.getItem("stylehub-cart")) || [];
 
 let wishlist =
     JSON.parse(localStorage.getItem("stylehub-wishlist")) || [];
 
 
-/* ================= SAVE DATA ================= */
+/* SAVE */
 
 function saveData() {
 
@@ -20,7 +21,7 @@ function saveData() {
 }
 
 
-/* ================= CART ================= */
+/* CART */
 
 function addToCart(name, price) {
 
@@ -100,7 +101,6 @@ function updateCart() {
                     </div>
                 </div>
 
-
                 <div class="quantity-controls">
 
                     <button
@@ -121,11 +121,9 @@ function updateCart() {
 
                 </div>
 
-
                 <strong>
                     ₹${itemTotal}
                 </strong>
-
 
                 <button
                     class="remove-btn"
@@ -147,6 +145,8 @@ function updateCart() {
 }
 
 
+/* QUANTITY */
+
 function changeQuantity(index, amount) {
 
     if (!cart[index]) return;
@@ -162,6 +162,8 @@ function changeQuantity(index, amount) {
     updateCart();
 }
 
+
+/* REMOVE */
 
 function removeFromCart(index) {
 
@@ -182,7 +184,7 @@ function openCart() {
 }
 
 
-/* ================= SEARCH ================= */
+/* SEARCH */
 
 function searchProducts() {
 
@@ -223,7 +225,7 @@ function searchProducts() {
 }
 
 
-/* ================= FILTER ================= */
+/* FILTER */
 
 function filterProducts(category) {
 
@@ -264,7 +266,7 @@ function filterProducts(category) {
 }
 
 
-/* ================= WISHLIST ================= */
+/* WISHLIST */
 
 function toggleWishlist(name, price) {
 
@@ -376,7 +378,7 @@ function openWishlist() {
 }
 
 
-/* ================= NAVIGATION ================= */
+/* NAVIGATION */
 
 function goToShop() {
 
@@ -388,7 +390,7 @@ function goToShop() {
 }
 
 
-/* ================= CHECKOUT ================= */
+/* CHECKOUT */
 
 function checkout() {
 
@@ -416,7 +418,7 @@ function closeCheckout() {
 }
 
 
-/* ================= ORDER ================= */
+/* ORDER */
 
 document
     .getElementById("checkout-form")
@@ -488,7 +490,7 @@ function closeSuccess() {
 }
 
 
-/* ================= MODAL ================= */
+/* MODAL */
 
 window.addEventListener(
     "click",
@@ -519,7 +521,7 @@ window.addEventListener(
 );
 
 
-/* ================= START ================= */
+/* START */
 
 updateCart();
 updateWishlist();
