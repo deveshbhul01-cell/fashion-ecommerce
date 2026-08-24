@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | StyleHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <a href="index.html" class="logo">STYLE<span>HUB</span></a>
+        <a href="index.html">← Continue Shopping</a>
+    </nav>
+</header>
+
+<main class="checkout-page">
+
+    <div class="checkout-container">
+
+        <section class="checkout-form">
+
+            <p class="eyebrow">STYLEHUB CHECKOUT</p>
+            <h1>Complete Your Order</h1>
+
+            <form id="checkout-form">
+
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    id="shipping-name"
+                    placeholder="Your full name"
+                    required
+                >
+
+                <label>Phone Number</label>
+                <input
+                    type="tel"
+                    id="shipping-phone"
+                    placeholder="Your phone number"
+                    required
+                >
+
+                <label>Delivery Address</label>
+                <textarea
+                    id="shipping-address"
+                    placeholder="House no., street, area, city..."
+                    rows="5"
+                    required
+                ></textarea>
+
+                <button type="submit" class="checkout-button">
+                    PLACE ORDER
+                </button>
+
+            </form>
+
+        </section>
+
+        <aside class="checkout-summary">
+
+            <h2>Order Summary</h2>
+
+            <div id="checkout-items"></div>
+
+            <div class="cart-total">
+                <strong>Total</strong>
+                <strong>₹<span id="checkout-total">0</span></strong>
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+
+const cart =
+    JSON.parse(localStorage.getItem("stylehub-cart")) || [];
+
+
+async function loadCheckout() {
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        alert("Please login before checkout.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        window.location.href = "index.html";
+        return;
+    }
+
+
+    const container =
+        document.getElementById("checkout-items");
+
+    let total = 0;
+
+    container.innerHTML = "";
+
+
+    cart.forEach(item => {
+
+        const itemTotal =
+            item.price * item.quantity;
+
+        total += itemTotal;
+
+
+        container.innerHTML += `
+            <div class="cart-item">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                >
+
+                <div>
+                    <h4>${item.name}</h4>
+
+                    <p>
+                        ₹${item.price} × ${item.quantity}
+                    </p>
+                </div>
+
+            </div>
+        `;
+
+    });
+
+
+    document.getElementById("checkout-total")
+        .textContent =
+        total.toLocaleString("en-IN");
+}
+
+
+document.getElementById("checkout-form")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+        alert("Please login first.");
+        return;
+    }
+
+
+    const name =
+        document.getElementById("shipping-name").value.trim();
+
+    const phone =
+        document.getElementById("shipping-phone").value.trim();
+
+    const address =
+        document.getElementById("shipping-address").value.trim();
+
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+
+    const { data: order, error } =
+        await supabaseClient
+            .from("orders")
+            .insert({
+
+                user_id: user.id,
+
+                total: total,
+
+                status: "pending",
+
+                shipping_name: name,
+
+                shipping_phone: phone,
+
+                shipping_address: address
+
+            })
+            .select()
+            .single();
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    for (const item of cart) {
+
+        const { error: itemError } =
+            await supabaseClient
+                .from("order_items")
+                .insert({
+
+                    order_id: order.id,
+
+                    product_id: item.id || null,
+
+                    quantity: item.quantity,
+
+                    price: item.price
+
+                });
+
+
+        if (itemError) {
+
+            alert(itemError.message);
+
+            return;
+        }
+
+    }
+
+
+    localStorage.removeItem("stylehub-cart");
+
+
+    alert(
+        "🎉 Order placed successfully!"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+});
+
+
+loadCheckout();
+
+</script>
+
+</body>
+</html>
