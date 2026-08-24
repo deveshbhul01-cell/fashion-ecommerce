@@ -2,14 +2,23 @@ let cart =
     JSON.parse(localStorage.getItem("stylehub-cart")) || [];
 
 
+/* =========================
+   SAVE CART
+========================= */
+
 function saveCart() {
 
     localStorage.setItem(
         "stylehub-cart",
         JSON.stringify(cart)
     );
+
 }
 
+
+/* =========================
+   ADD TO CART
+========================= */
 
 function addToCart(name, price, image) {
 
@@ -42,9 +51,17 @@ function addToCart(name, price, image) {
 
     updateCart();
 
-    alert(name + " added to cart 🛒");
+
+    alert(
+        name + " added to cart 🛒"
+    );
+
 }
 
+
+/* =========================
+   UPDATE CART
+========================= */
 
 function updateCart() {
 
@@ -56,21 +73,23 @@ function updateCart() {
         );
 
 
-    document.getElementById(
-        "cart-count"
-    ).textContent = count;
+    const countElement =
+        document.getElementById("cart-count");
+
+
+    if (countElement) {
+
+        countElement.textContent = count;
+
+    }
 
 
     const cartItems =
-        document.getElementById(
-            "cart-items"
-        );
+        document.getElementById("cart-items");
 
 
     const totalElement =
-        document.getElementById(
-            "cart-total"
-        );
+        document.getElementById("cart-total");
 
 
     if (!cartItems) return;
@@ -99,7 +118,9 @@ function updateCart() {
 
                 <div>
 
-                    <h4>${item.name}</h4>
+                    <h4>
+                        ${item.name}
+                    </h4>
 
                     <p>
                         ₹${item.price}
@@ -127,6 +148,7 @@ function updateCart() {
 
                 </div>
 
+
                 <button
                     class="remove"
                     onclick="removeItem(${index})"
@@ -141,12 +163,24 @@ function updateCart() {
     });
 
 
-    totalElement.textContent =
-        total.toLocaleString("en-IN");
+    if (totalElement) {
+
+        totalElement.textContent =
+            total.toLocaleString("en-IN");
+
+    }
+
 }
 
 
+/* =========================
+   CHANGE QUANTITY
+========================= */
+
 function changeQuantity(index, change) {
+
+    if (!cart[index]) return;
+
 
     cart[index].quantity += change;
 
@@ -161,80 +195,113 @@ function changeQuantity(index, change) {
     saveCart();
 
     updateCart();
+
 }
 
 
+/* =========================
+   REMOVE ITEM
+========================= */
+
 function removeItem(index) {
 
+    if (!cart[index]) return;
+
+
     cart.splice(index, 1);
+
 
     saveCart();
 
     updateCart();
+
 }
 
+
+/* =========================
+   OPEN CART
+========================= */
 
 function openCart() {
 
-    document.getElementById(
-        "cart-modal"
-    ).classList.add("active");
+    const modal =
+        document.getElementById("cart-modal");
+
+
+    if (modal) {
+
+        modal.classList.add("active");
+
+    }
+
 
     updateCart();
+
 }
 
+
+/* =========================
+   CLOSE CART
+========================= */
 
 function closeCart() {
 
-    document.getElementById(
-        "cart-modal"
-    ).classList.remove("active");
+    const modal =
+        document.getElementById("cart-modal");
+
+
+    if (modal) {
+
+        modal.classList.remove("active");
+
+    }
+
 }
 
 
-async function checkout() {
+/* =========================
+   CHECKOUT
+========================= */
 
-    const {
-        data: {
-            user
-        }
-    } = await supabaseClient.auth.getUser();
-
-
-    if (!user) {
-
-        alert(
-            "Please login before checkout."
-        );
-
-        window.location.href =
-            "login.html";
-
-        return;
-    }
-
+function checkout() {
 
     if (cart.length === 0) {
 
-        alert("Your cart is empty.");
+        alert(
+            "Your cart is empty."
+        );
 
         return;
+
     }
 
 
-    alert(
-        "Checkout system coming next! 🛍️"
-    );
+    window.location.href =
+        "checkout.html";
+
 }
 
 
+/* =========================
+   LOAD USER
+========================= */
+
 async function loadUser() {
 
+    if (
+        typeof supabaseClient ===
+        "undefined"
+    ) {
+
+        return;
+
+    }
+
+
     const {
-        data: {
-            user
-        }
-    } = await supabaseClient.auth.getUser();
+        data: { user }
+    } =
+        await supabaseClient.auth.getUser();
 
 
     const accountLink =
@@ -249,16 +316,15 @@ async function loadUser() {
     if (user) {
 
         const name =
-            user.user_metadata?.full_name
-            || user.email.split("@")[0];
+            user.user_metadata?.full_name ||
+            user.email.split("@")[0];
 
 
         accountLink.textContent =
             "👤 " + name;
 
 
-        accountLink.href =
-            "#";
+        accountLink.href = "#";
 
 
         accountLink.onclick =
@@ -266,12 +332,14 @@ async function loadUser() {
 
                 event.preventDefault();
 
-                const logout =
+
+                const shouldLogout =
                     confirm(
                         "Do you want to logout?"
                     );
 
-                if (logout) {
+
+                if (shouldLogout) {
 
                     await logoutUser();
 
@@ -283,6 +351,48 @@ async function loadUser() {
 
 }
 
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutUser() {
+
+    if (
+        typeof supabaseClient ===
+        "undefined"
+    ) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const { error } =
+        await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
 
 document.addEventListener(
     "DOMContentLoaded",
