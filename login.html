@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,8 @@
 
         <div class="login-card">
 
+            <!-- LOGIN -->
+
             <div id="login-form">
 
                 <p class="eyebrow">WELCOME BACK</p>
@@ -26,7 +29,7 @@
                 <h1>Login</h1>
 
                 <p class="login-subtitle">
-                    Sign in to continue shopping.
+                    Sign in to your StyleHub account.
                 </p>
 
                 <form onsubmit="loginUser(event)">
@@ -49,10 +52,7 @@
                         required
                     >
 
-                    <button
-                        type="submit"
-                        class="login-button"
-                    >
+                    <button class="login-button" type="submit">
                         LOGIN
                     </button>
 
@@ -60,6 +60,7 @@
 
                 <p class="switch-text">
                     Don't have an account?
+
                     <button onclick="showRegister()">
                         Create account
                     </button>
@@ -67,6 +68,8 @@
 
             </div>
 
+
+            <!-- REGISTER -->
 
             <div id="register-form" style="display:none;">
 
@@ -85,7 +88,7 @@
                     <input
                         type="text"
                         id="register-name"
-                        placeholder="Your name"
+                        placeholder="Your full name"
                         required
                     >
 
@@ -108,10 +111,7 @@
                         required
                     >
 
-                    <button
-                        type="submit"
-                        class="login-button"
-                    >
+                    <button class="login-button" type="submit">
                         CREATE ACCOUNT
                     </button>
 
@@ -119,6 +119,7 @@
 
                 <p class="switch-text">
                     Already have an account?
+
                     <button onclick="showLogin()">
                         Login
                     </button>
@@ -130,7 +131,15 @@
 
     </div>
 
+
+    <!-- Supabase -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase-config.js"></script>
+
     <script src="auth.js"></script>
 
 </body>
+
 </html>
