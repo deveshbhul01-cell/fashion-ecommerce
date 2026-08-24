@@ -1,17 +1,112 @@
-function getUsers() {
+async function registerUser(event) {
 
-    return JSON.parse(
-        localStorage.getItem("stylehub-users")
-    ) || [];
+    event.preventDefault();
+
+    const name =
+        document.getElementById("register-name").value.trim();
+
+    const email =
+        document.getElementById("register-email").value.trim();
+
+    const password =
+        document.getElementById("register-password").value;
+
+
+    if (password.length < 6) {
+
+        alert("Password must be at least 6 characters.");
+
+        return;
+    }
+
+
+    const { data, error } =
+        await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+                data: {
+                    full_name: name
+                }
+
+            }
+
+        });
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    alert(
+        "Account created successfully! 🎉 Check your email if verification is required."
+    );
+
+
+    showLogin();
 }
 
 
-function saveUsers(users) {
+async function loginUser(event) {
 
-    localStorage.setItem(
-        "stylehub-users",
-        JSON.stringify(users)
-    );
+    event.preventDefault();
+
+
+    const email =
+        document.getElementById("login-email").value.trim();
+
+    const password =
+        document.getElementById("login-password").value;
+
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    alert("Welcome to StyleHub! ❤️");
+
+
+    window.location.href = "index.html";
+}
+
+
+async function logoutUser() {
+
+    const { error } =
+        await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    window.location.href = "index.html";
 }
 
 
@@ -32,119 +127,4 @@ function showLogin() {
 
     document.getElementById("login-form")
         .style.display = "block";
-}
-
-
-function registerUser(event) {
-
-    event.preventDefault();
-
-    const name =
-        document.getElementById("register-name")
-            .value.trim();
-
-    const email =
-        document.getElementById("register-email")
-            .value.trim()
-            .toLowerCase();
-
-    const password =
-        document.getElementById("register-password")
-            .value;
-
-
-    let users = getUsers();
-
-
-    const existingUser =
-        users.find(user => user.email === email);
-
-
-    if (existingUser) {
-
-        alert(
-            "An account with this email already exists."
-        );
-
-        return;
-    }
-
-
-    users.push({
-        name: name,
-        email: email,
-        password: password
-    });
-
-
-    saveUsers(users);
-
-
-    alert(
-        "Account created successfully! 🎉"
-    );
-
-
-    showLogin();
-}
-
-
-function loginUser(event) {
-
-    event.preventDefault();
-
-
-    const email =
-        document.getElementById("login-email")
-            .value.trim()
-            .toLowerCase();
-
-    const password =
-        document.getElementById("login-password")
-            .value;
-
-
-    const users = getUsers();
-
-
-    const user =
-        users.find(
-            item =>
-                item.email === email &&
-                item.password === password
-        );
-
-
-    if (!user) {
-
-        alert(
-            "Incorrect email or password."
-        );
-
-        return;
-    }
-
-
-    localStorage.setItem(
-        "stylehub-current-user",
-        JSON.stringify(user)
-    );
-
-
-    alert(
-        "Welcome back, " + user.name + "! ❤️"
-    );
-
-
-    window.location.href = "index.html";
-}
-
-
-function logoutUser() {
-
-    localStorage.removeItem(
-        "stylehub-current-user"
-    );
-
-    window.location.href = "login.html";
 }
