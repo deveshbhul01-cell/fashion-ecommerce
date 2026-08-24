@@ -1,124 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>StyleHub | Fashion Store</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<header class="navbar">
 
-    <a href="#home" class="logo">STYLE<span>HUB</span></a>
+<!-- NAVBAR -->
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#shop">Shop</a>
-        <a href="#categories">Categories</a>
-        <a href="#contact">Contact</a>
+<header>
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            STYLE<span>HUB</span>
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+
+            <a href="#products">Shop</a>
+
+            <a href="#about">About</a>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <a
+                href="login.html"
+                id="account-link"
+                class="account-link"
+            >
+                👤 Login
+            </a>
+
+            <button
+                class="cart-button"
+                onclick="openCart()"
+            >
+                🛒 Cart
+                <span id="cart-count">0</span>
+            </button>
+
+        </div>
+
     </nav>
-<a
-    href="login.html"
-    class="login-link"
-    id="login-link"
->
-    👤 Login
-</a>
-    <div class="nav-actions">
-        <button onclick="openWishlist()" aria-label="Wishlist">
-            ♡ <span id="wishlist-count">0</span>
-        </button>
-
-        <button onclick="openCart()" aria-label="Cart">
-            🛒 <span id="cart-count">0</span>
-        </button>
-    </div>
 
 </header>
 
-<main>
 
-<section class="hero" id="home">
+
+<!-- HERO -->
+
+<section id="home" class="hero">
 
     <div class="hero-content">
 
-        <p class="eyebrow">NEW COLLECTION 2026</p>
-
-        <h1>DEFINE<br>YOUR STYLE.</h1>
-
-        <p class="hero-text">
-            Discover modern fashion made for your everyday look.
+        <p class="eyebrow">
+            NEW COLLECTION
         </p>
 
-        <button class="primary-btn" onclick="goToShop()">
-            SHOP NOW →
-        </button>
+        <h1>
+            STYLE<br>
+            YOUR WAY.
+        </h1>
+
+        <p>
+            Discover modern fashion designed
+            for everyday confidence.
+        </p>
+
+        <a href="#products" class="hero-button">
+            SHOP NOW
+        </a>
 
     </div>
 
 </section>
 
 
-<section class="categories" id="categories">
 
-    <p class="eyebrow">EXPLORE</p>
+<!-- PRODUCTS -->
 
-    <h2>Shop By Category</h2>
-
-    <div class="category-grid">
-
-        <button onclick="filterProducts('all')">
-            <span>✨</span>
-            All
-        </button>
-
-        <button onclick="filterProducts('tshirt')">
-            <span>👕</span>
-            T-Shirts
-        </button>
-
-        <button onclick="filterProducts('jeans')">
-            <span>👖</span>
-            Jeans
-        </button>
-
-        <button onclick="filterProducts('jacket')">
-            <span>🧥</span>
-            Jackets
-        </button>
-
-    </div>
-
-</section>
-
-
-<section class="shop" id="shop">
+<section id="products" class="products-section">
 
     <div class="section-heading">
 
-        <div>
-            <p class="eyebrow">OUR COLLECTION</p>
-            <h2>Trending Products</h2>
-        </div>
+        <p class="eyebrow">
+            OUR COLLECTION
+        </p>
 
-        <input
-            id="search"
-            type="search"
-            placeholder="🔎 Search products..."
-            oninput="searchProducts()"
-        >
+        <h2>
+            Trending Products
+        </h2>
 
     </div>
 
 
-    <div class="product-grid" id="product-grid">
+    <div class="products-grid">
 
 
-        <article class="product-card" data-category="tshirt">
+        <!-- T-SHIRT -->
+
+        <article class="product-card">
 
             <div class="product-image">
 
@@ -127,39 +129,40 @@
                     alt="Oversized T-Shirt"
                 >
 
-                <button
-                    class="heart-btn"
-                    onclick="toggleWishlist('Oversized T-Shirt', 799)"
-                >
-                    ♡
-                </button>
-
             </div>
 
             <div class="product-info">
 
-                <small>T-SHIRT</small>
+                <p class="category">
+                    T-SHIRT
+                </p>
 
-                <h3>Oversized T-Shirt</h3>
+                <h3>
+                    Oversized T-Shirt
+                </h3>
 
-                <div class="product-bottom">
+                <p class="price">
+                    ₹799
+                </p>
 
-                    <strong>₹799</strong>
-
-                    <button
-                        onclick="addToCart('Oversized T-Shirt', 799)"
-                    >
-                        Add
-                    </button>
-
-                </div>
+                <button
+                    onclick="addToCart(
+                        'Oversized T-Shirt',
+                        799,
+                        'images/tshirt.jpg'
+                    )"
+                >
+                    ADD TO CART
+                </button>
 
             </div>
 
         </article>
 
 
-        <article class="product-card" data-category="jeans">
+        <!-- JEANS -->
+
+        <article class="product-card">
 
             <div class="product-image">
 
@@ -168,39 +171,40 @@
                     alt="Baggy Jeans"
                 >
 
-                <button
-                    class="heart-btn"
-                    onclick="toggleWishlist('Baggy Jeans', 1499)"
-                >
-                    ♡
-                </button>
-
             </div>
 
             <div class="product-info">
 
-                <small>JEANS</small>
+                <p class="category">
+                    JEANS
+                </p>
 
-                <h3>Baggy Jeans</h3>
+                <h3>
+                    Baggy Jeans
+                </h3>
 
-                <div class="product-bottom">
+                <p class="price">
+                    ₹1,499
+                </p>
 
-                    <strong>₹1,499</strong>
-
-                    <button
-                        onclick="addToCart('Baggy Jeans', 1499)"
-                    >
-                        Add
-                    </button>
-
-                </div>
+                <button
+                    onclick="addToCart(
+                        'Baggy Jeans',
+                        1499,
+                        'images/jeans.jpg'
+                    )"
+                >
+                    ADD TO CART
+                </button>
 
             </div>
 
         </article>
 
 
-        <article class="product-card" data-category="jacket">
+        <!-- JACKET -->
+
+        <article class="product-card">
 
             <div class="product-image">
 
@@ -209,204 +213,124 @@
                     alt="Denim Jacket"
                 >
 
-                <button
-                    class="heart-btn"
-                    onclick="toggleWishlist('Denim Jacket', 1999)"
-                >
-                    ♡
-                </button>
-
             </div>
 
             <div class="product-info">
 
-                <small>JACKET</small>
+                <p class="category">
+                    JACKET
+                </p>
 
-                <h3>Denim Jacket</h3>
+                <h3>
+                    Denim Jacket
+                </h3>
 
-                <div class="product-bottom">
+                <p class="price">
+                    ₹1,999
+                </p>
 
-                    <strong>₹1,999</strong>
-
-                    <button
-                        onclick="addToCart('Denim Jacket', 1999)"
-                    >
-                        Add
-                    </button>
-
-                </div>
+                <button
+                    onclick="addToCart(
+                        'Denim Jacket',
+                        1999,
+                        'images/jacket.jpg'
+                    )"
+                >
+                    ADD TO CART
+                </button>
 
             </div>
 
         </article>
 
+
     </div>
 
+</section>
 
-    <p id="no-products" class="no-products">
-        No products found.
+
+
+<!-- ABOUT -->
+
+<section id="about" class="about-section">
+
+    <p class="eyebrow">
+        ABOUT STYLEHUB
+    </p>
+
+    <h2>
+        Fashion made simple.
+    </h2>
+
+    <p>
+        StyleHub brings modern everyday fashion
+        together in one simple shopping experience.
     </p>
 
 </section>
 
 
-<section class="cart-section" id="cart">
 
-    <div class="cart-container">
+<!-- CART -->
 
-        <p class="eyebrow">SHOPPING BAG</p>
+<div id="cart-modal" class="cart-modal">
 
-        <h2>Your Cart</h2>
+    <div class="cart-box">
 
-        <div id="cart-items"></div>
+        <div class="cart-header">
 
-        <div class="cart-summary">
+            <h2>Your Cart</h2>
 
-            <div>
-                <span>Subtotal</span>
-
-                <strong>
-                    ₹<span id="cart-total">0</span>
-                </strong>
-            </div>
-
-            <button
-                class="primary-btn full-btn"
-                onclick="checkout()"
-            >
-                PROCEED TO CHECKOUT
+            <button onclick="closeCart()">
+                ✕
             </button>
 
         </div>
 
-    </div>
 
-</section>
-
-
-<section class="wishlist-section" id="wishlist">
-
-    <p class="eyebrow">SAVED ITEMS</p>
-
-    <h2>Your Wishlist</h2>
-
-    <div id="wishlist-items"></div>
-
-</section>
+        <div id="cart-items"></div>
 
 
-<section class="contact" id="contact">
+        <div class="cart-total">
 
-    <p class="eyebrow">CONTACT</p>
+            <strong>Total</strong>
 
-    <h2>Need Help?</h2>
+            <strong>
+                ₹<span id="cart-total">0</span>
+            </strong>
 
-    <p>
-        Have questions about products or orders?
-        Contact StyleHub.
-    </p>
+        </div>
 
-</section>
-
-</main>
-
-
-<div class="modal" id="checkout-modal">
-
-    <div class="modal-box">
 
         <button
-            class="close-btn"
-            onclick="closeCheckout()"
+            class="checkout-button"
+            onclick="checkout()"
         >
-            ×
-        </button>
-
-        <p class="eyebrow">CHECKOUT</p>
-
-        <h2>Delivery Details</h2>
-
-        <form id="checkout-form">
-
-            <input
-                id="customer-name"
-                type="text"
-                placeholder="Full Name"
-                required
-            >
-
-            <input
-                id="customer-phone"
-                type="tel"
-                placeholder="Phone Number"
-                required
-            >
-
-            <textarea
-                id="customer-address"
-                placeholder="Delivery Address"
-                required
-            ></textarea>
-
-            <select id="payment-method">
-
-                <option value="cod">
-                    Cash on Delivery
-                </option>
-
-                <option value="demo">
-                    Online Payment - Demo
-                </option>
-
-            </select>
-
-            <button class="primary-btn" type="submit">
-                PLACE ORDER
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<div class="modal" id="success-modal">
-
-    <div class="modal-box success-box">
-
-        <div class="success-icon">✓</div>
-
-        <h2>Order Placed!</h2>
-
-        <p>
-            Thank you for shopping with StyleHub.
-        </p>
-
-        <button
-            class="primary-btn"
-            onclick="closeSuccess()"
-        >
-            CONTINUE SHOPPING
+            CHECKOUT
         </button>
 
     </div>
 
 </div>
+
 
 
 <footer>
 
-    <div class="logo">STYLE<span>HUB</span></div>
-
-    <p>Your style. Your identity.</p>
-
-    <small>© 2026 StyleHub. All rights reserved.</small>
+    <p>
+        © 2026 StyleHub. All rights reserved.
+    </p>
 
 </footer>
 
 
-<script src="script.js?v=3"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="script.js"></script>
 
 </body>
+
 </html>
