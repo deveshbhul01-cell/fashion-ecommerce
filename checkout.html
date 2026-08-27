@@ -3,31 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Checkout | StyleHub</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .success-box {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 40px 25px;
+            text-align: center;
+            background: #111;
+            color: white;
+            border-radius: 20px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .success-box h1 {
+            margin-bottom: 15px;
+        }
+
+        .success-box p {
+            margin: 10px 0;
+        }
+
+        .success-order-id {
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .continue-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 25px;
+            background: white;
+            color: black;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .loading-button {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
     <nav class="navbar">
-        <a href="index.html" class="logo">STYLE<span>HUB</span></a>
-        <a href="index.html">← Continue Shopping</a>
+
+        <a href="index.html" class="logo">
+            STYLE<span>HUB</span>
+        </a>
+
+        <a href="index.html">
+            ← Continue Shopping
+        </a>
+
     </nav>
 </header>
 
+
 <main class="checkout-page">
 
-    <div class="checkout-container">
+    <!-- CHECKOUT SECTION -->
+
+    <div
+        class="checkout-container"
+        id="checkout-section"
+    >
 
         <section class="checkout-form">
 
-            <p class="eyebrow">STYLEHUB CHECKOUT</p>
-            <h1>Complete Your Order</h1>
+            <p class="eyebrow">
+                STYLEHUB CHECKOUT
+            </p>
+
+            <h1>
+                Complete Your Order
+            </h1>
+
 
             <form id="checkout-form">
 
-                <label>Full Name</label>
+                <label for="shipping-name">
+                    Full Name
+                </label>
+
                 <input
                     type="text"
                     id="shipping-name"
@@ -35,7 +105,11 @@
                     required
                 >
 
-                <label>Phone Number</label>
+
+                <label for="shipping-phone">
+                    Phone Number
+                </label>
+
                 <input
                     type="tel"
                     id="shipping-phone"
@@ -43,7 +117,11 @@
                     required
                 >
 
-                <label>Delivery Address</label>
+
+                <label for="shipping-address">
+                    Delivery Address
+                </label>
+
                 <textarea
                     id="shipping-address"
                     placeholder="House no., street, area, city..."
@@ -51,7 +129,12 @@
                     required
                 ></textarea>
 
-                <button type="submit" class="checkout-button">
+
+                <button
+                    type="submit"
+                    class="checkout-button"
+                    id="place-order-button"
+                >
                     PLACE ORDER
                 </button>
 
@@ -59,199 +142,480 @@
 
         </section>
 
+
         <aside class="checkout-summary">
 
-            <h2>Order Summary</h2>
+            <h2>
+                Order Summary
+            </h2>
 
             <div id="checkout-items"></div>
 
+
             <div class="cart-total">
-                <strong>Total</strong>
-                <strong>₹<span id="checkout-total">0</span></strong>
+
+                <strong>
+                    Total
+                </strong>
+
+                <strong>
+                    ₹<span id="checkout-total">0</span>
+                </strong>
+
             </div>
 
         </aside>
 
     </div>
 
+
+    <!-- SUCCESS SECTION -->
+
+    <div
+        class="success-box"
+        id="success-section"
+        style="display:none;"
+    >
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+        <h1>
+            Order Placed Successfully!
+        </h1>
+
+        <p>
+            Thank you for shopping with StyleHub ❤️
+        </p>
+
+        <p class="success-order-id">
+            Order ID:
+            <span id="success-order-id"></span>
+        </p>
+
+        <p>
+            Total:
+            ₹<span id="success-total"></span>
+        </p>
+
+        <a
+            href="index.html"
+            class="continue-button"
+        >
+            CONTINUE SHOPPING
+        </a>
+
+    </div>
+
 </main>
 
+
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="supabase-config.js"></script>
+
 
 <script>
 
 const cart =
-    JSON.parse(localStorage.getItem("stylehub-cart")) || [];
+    JSON.parse(
+        localStorage.getItem("stylehub-cart")
+    ) || [];
 
+
+/* =========================
+   LOAD CHECKOUT
+========================= */
 
 async function loadCheckout() {
 
     const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
+        data: { user },
+        error: userError
+    } =
+        await supabaseClient.auth.getUser();
 
-    if (!user) {
-        alert("Please login before checkout.");
-        window.location.href = "login.html";
+
+    if (userError || !user) {
+
+        alert(
+            "Please login before checkout."
+        );
+
+        window.location.href =
+            "login.html";
+
         return;
+
     }
 
+
     if (cart.length === 0) {
-        alert("Your cart is empty.");
-        window.location.href = "index.html";
+
+        alert(
+            "Your cart is empty."
+        );
+
+        window.location.href =
+            "index.html";
+
         return;
+
     }
 
 
     const container =
-        document.getElementById("checkout-items");
+        document.getElementById(
+            "checkout-items"
+        );
+
 
     let total = 0;
+
 
     container.innerHTML = "";
 
 
     cart.forEach(item => {
 
+        const price =
+            Number(item.price) || 0;
+
+        const quantity =
+            Number(item.quantity) || 1;
+
+
         const itemTotal =
-            item.price * item.quantity;
+            price * quantity;
+
 
         total += itemTotal;
 
 
         container.innerHTML += `
+
             <div class="cart-item">
 
                 <img
-                    src="${item.image}"
-                    alt="${item.name}"
+                    src="${item.image || ""}"
+                    alt="${item.name || "Product"}"
                 >
 
                 <div>
-                    <h4>${item.name}</h4>
+
+                    <h4>
+                        ${item.name || "Product"}
+                    </h4>
 
                     <p>
-                        ₹${item.price} × ${item.quantity}
+                        ₹${price.toLocaleString("en-IN")}
+                        ×
+                        ${quantity}
                     </p>
+
                 </div>
 
             </div>
+
         `;
 
     });
 
 
-    document.getElementById("checkout-total")
-        .textContent =
+    document.getElementById(
+        "checkout-total"
+    ).textContent =
         total.toLocaleString("en-IN");
+
 }
 
 
-document.getElementById("checkout-form")
-.addEventListener("submit", async function(event) {
+/* =========================
+   PLACE ORDER
+========================= */
 
-    event.preventDefault();
+document.getElementById(
+    "checkout-form"
+).addEventListener(
+    "submit",
+    async function(event) {
 
-
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
-
-
-    if (!user) {
-        alert("Please login first.");
-        return;
-    }
+        event.preventDefault();
 
 
-    const name =
-        document.getElementById("shipping-name").value.trim();
-
-    const phone =
-        document.getElementById("shipping-phone").value.trim();
-
-    const address =
-        document.getElementById("shipping-address").value.trim();
+        const button =
+            document.getElementById(
+                "place-order-button"
+            );
 
 
-    let total = 0;
+        button.textContent =
+            "PLACING ORDER...";
 
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-    });
-
-
-    const { data: order, error } =
-        await supabaseClient
-            .from("orders")
-            .insert({
-
-                user_id: user.id,
-
-                total: total,
-
-                status: "pending",
-
-                shipping_name: name,
-
-                shipping_phone: phone,
-
-                shipping_address: address
-
-            })
-            .select()
-            .single();
+        button.classList.add(
+            "loading-button"
+        );
 
 
-    if (error) {
+        try {
 
-        alert(error.message);
+            /* =====================
+               GET USER
+            ===================== */
 
-        return;
-    }
+            const {
+                data: { user },
+                error: userError
+            } =
+                await supabaseClient.auth.getUser();
 
 
-    for (const item of cart) {
+            if (userError || !user) {
 
-        const { error: itemError } =
-            await supabaseClient
-                .from("order_items")
-                .insert({
+                alert(
+                    "Your login session has expired. Please login again."
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            /* =====================
+               GET FORM DATA
+            ===================== */
+
+            const name =
+                document
+                    .getElementById(
+                        "shipping-name"
+                    )
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById(
+                        "shipping-phone"
+                    )
+                    .value
+                    .trim();
+
+
+            const address =
+                document
+                    .getElementById(
+                        "shipping-address"
+                    )
+                    .value
+                    .trim();
+
+
+            /* =====================
+               CALCULATE TOTAL
+            ===================== */
+
+            let total = 0;
+
+
+            cart.forEach(item => {
+
+                const price =
+                    Number(item.price) || 0;
+
+                const quantity =
+                    Number(item.quantity) || 1;
+
+
+                total +=
+                    price * quantity;
+
+            });
+
+
+            /* =====================
+               CREATE ORDER
+            ===================== */
+
+            const {
+                data: order,
+                error: orderError
+            } =
+                await supabaseClient
+                    .from("orders")
+                    .insert({
+
+                        user_id: user.id,
+
+                        total: total,
+
+                        status: "pending",
+
+                        shipping_name: name,
+
+                        shipping_phone: phone,
+
+                        shipping_address: address
+
+                    })
+                    .select()
+                    .single();
+
+
+            if (orderError) {
+
+                console.error(
+                    "Order error:",
+                    orderError
+                );
+
+                alert(
+                    "Order could not be placed: "
+                    + orderError.message
+                );
+
+                return;
+
+            }
+
+
+            /* =====================
+               PREPARE ORDER ITEMS
+            ===================== */
+
+            const items =
+                cart.map(item => ({
 
                     order_id: order.id,
 
-                    product_id: item.id || null,
+                    /*
+                     * Product IDs in your
+                     * products table are numbers.
+                     *
+                     * Convert them to Number
+                     * before inserting.
+                     */
 
-                    quantity: item.quantity,
+                    product_id:
+                        item.id == null
+                            ? null
+                            : Number(item.id),
 
-                    price: item.price
+                    quantity:
+                        Number(item.quantity) || 1,
 
-                });
+                    price:
+                        Number(item.price) || 0
+
+                }));
 
 
-        if (itemError) {
+            /* =====================
+               SAVE ORDER ITEMS
+            ===================== */
 
-            alert(itemError.message);
+            const {
+                error: itemError
+            } =
+                await supabaseClient
+                    .from("order_items")
+                    .insert(items);
 
-            return;
+
+            if (itemError) {
+
+                console.error(
+                    "Order items error:",
+                    itemError
+                );
+
+                alert(
+                    "Order was created, but the products could not be saved: "
+                    + itemError.message
+                );
+
+                return;
+
+            }
+
+
+            /* =====================
+               EVERYTHING SUCCESSFUL
+            ===================== */
+
+            localStorage.removeItem(
+                "stylehub-cart"
+            );
+
+
+            document.getElementById(
+                "success-order-id"
+            ).textContent =
+                order.id;
+
+
+            document.getElementById(
+                "success-total"
+            ).textContent =
+                total.toLocaleString(
+                    "en-IN"
+                );
+
+
+            document.getElementById(
+                "checkout-section"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "success-section"
+            ).style.display =
+                "block";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Checkout error:",
+                error
+            );
+
+            alert(
+                "Something went wrong: "
+                + error.message
+            );
+
+        } finally {
+
+            button.textContent =
+                "PLACE ORDER";
+
+            button.classList.remove(
+                "loading-button"
+            );
+
         }
 
-    }
+    });
 
 
-    localStorage.removeItem("stylehub-cart");
-
-
-    alert(
-    "🎉 Order placed successfully!"
-);
-
-window.location.href =
-    "index.html";
-
-});
-
+/* =========================
+   START
+========================= */
 
 loadCheckout();
 
