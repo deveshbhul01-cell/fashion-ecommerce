@@ -9,19 +9,19 @@
         * { box-sizing: border-box; }
         body { margin: 0; background: #f6f6f6; color: #111; font-family: Arial, sans-serif; }
         .orders-header { background: #fff; border-bottom: 1px solid #eee; padding: 18px 5%; }
-        .orders-nav { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
+        .orders-nav { max-width: 1200px; margin: auto; display: flex; justify-content: center; }
         .logo { text-decoration: none; color: #111; font-size: 25px; font-weight: 900; }
         .logo span { color: #777; }
-        .back-link { text-decoration: none; color: #555; font-size: 14px; }
         .orders-page { max-width: 1000px; margin: auto; padding: 45px 20px; }
         .page-heading { margin-bottom: 30px; }
         .page-heading h1 { margin: 0 0 8px; font-size: 38px; }
-        .page-heading p { margin: 0; color: #777; }
+        .page-heading p, .order-date, .item-quantity, .total-label, .empty p, .error p { color: #777; }
+        .page-heading p { margin: 0; }
         .order-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 18px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,.04); }
         .order-top, .order-bottom { display: flex; justify-content: space-between; align-items: center; }
-        .order-top { padding: 20px 22px; gap: 15px; border-bottom: 1px solid #eee; }
+        .order-top { padding: 20px 22px; border-bottom: 1px solid #eee; }
         .order-number { font-size: 17px; font-weight: 800; }
-        .order-date, .item-quantity, .total-label { color: #777; font-size: 13px; }
+        .order-date, .item-quantity, .total-label { font-size: 13px; }
         .order-date { margin-top: 5px; }
         .status { padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: 800; text-transform: uppercase; background: #eee; }
         .status.pending { background: #fff3cd; color: #856404; }
@@ -32,11 +32,12 @@
         .order-body { padding: 20px 22px; }
         .items-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; letter-spacing: .5px; }
         .order-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+        .order-item:last-child { border-bottom: 0; }
         .item-left { display: flex; align-items: center; gap: 12px; }
-        .item-icon { width: 45px; height: 45px; border-radius: 10px; background: #f2f2f2; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .item-name { font-weight: 700; font-size: 14px; }
+        .item-icon { width: 45px; height: 45px; border-radius: 10px; background: #f2f2f2; display: grid; place-items: center; font-size: 20px; }
+        .item-name, .item-price { font-weight: 700; }
+        .item-name { font-size: 14px; }
         .item-quantity { margin-top: 4px; }
-        .item-price { font-weight: 700; }
         .order-bottom { background: #fafafa; padding: 18px 22px; }
         .total-label { font-size: 14px; }
         .total-price { font-size: 21px; font-weight: 900; }
@@ -47,14 +48,13 @@
         .empty { padding: 70px 25px; }
         .empty-icon { font-size: 55px; margin-bottom: 15px; }
         .empty h2, .error h2 { margin-top: 0; }
-        .empty p, .error p { color: #777; }
         .shop-button, .retry-button { display: inline-block; margin-top: 20px; padding: 13px 22px; border-radius: 9px; background: #111; color: #fff; text-decoration: none; font-weight: 800; border: 0; cursor: pointer; }
         .error { padding: 40px 20px; }
         .error p { word-break: break-word; }
         @media (max-width: 600px) {
             .orders-page { padding: 30px 15px; }
             .page-heading h1 { font-size: 30px; }
-            .order-top { flex-direction: column; align-items: flex-start; }
+            .order-top { flex-direction: column; align-items: flex-start; gap: 15px; }
             .order-body, .order-bottom { padding: 17px; }
         }
     </style>
@@ -63,7 +63,6 @@
 <header class="orders-header">
     <nav class="orders-nav">
         <a href="index.html" class="logo">STYLE<span>HUB</span></a>
-        <a href="index.html" class="back-link">← Continue Shopping</a>
     </nav>
 </header>
 
@@ -84,7 +83,6 @@
         <div class="empty-icon">🛍️</div>
         <h2>No Orders Yet</h2>
         <p>You haven't placed any orders yet.</p>
-        <a href="index.html" class="shop-button">START SHOPPING</a>
     </div>
 
     <div id="error-box" class="error" style="display:none;">
@@ -133,14 +131,32 @@ async function loadOrders() {
                 ? order.order_items.map(item => {
                     const quantity = Number(item.quantity) || 1;
                     const total = (Number(item.price) || 0) * quantity;
-                    return `<div class="order-item"><div class="item-left"><div class="item-icon">🛍️</div><div><div class="item-name">StyleHub Product</div><div class="item-quantity">Quantity: ${quantity}</div></div></div><div class="item-price">₹${total.toLocaleString("en-IN")}</div></div>`;
+                    return `<div class="order-item">
+                        <div class="item-left">
+                            <div class="item-icon">🛍️</div>
+                            <div><div class="item-name">StyleHub Product</div>
+                            <div class="item-quantity">Quantity: ${quantity}</div></div>
+                        </div>
+                        <div class="item-price">₹${total.toLocaleString("en-IN")}</div>
+                    </div>`;
                 }).join("")
-                : `<div class="order-item"><div class="item-left"><div class="item-icon">📦</div><div><div class="item-name">Order item</div><div class="item-quantity">Item information unavailable</div></div></div></div>`;
+                : `<div class="order-item"><div class="item-left">
+                    <div class="item-icon">📦</div>
+                    <div><div class="item-name">Order item</div>
+                    <div class="item-quantity">Item information unavailable</div></div>
+                </div></div>`;
 
             return `<article class="order-card">
-                <div class="order-top"><div><div class="order-number">Order #${order.id}</div><div class="order-date">${date}</div></div><span class="status ${status}">${status}</span></div>
+                <div class="order-top">
+                    <div><div class="order-number">Order #${order.id}</div>
+                    <div class="order-date">${date}</div></div>
+                    <span class="status ${status}">${status}</span>
+                </div>
                 <div class="order-body"><div class="items-title">ORDER ITEMS</div>${items}</div>
-                <div class="order-bottom"><span class="total-label">Order Total</span><span class="total-price">₹${Number(order.total || 0).toLocaleString("en-IN")}</span></div>
+                <div class="order-bottom">
+                    <span class="total-label">Order Total</span>
+                    <span class="total-price">₹${Number(order.total || 0).toLocaleString("en-IN")}</span>
+                </div>
             </article>`;
         }).join("");
 
